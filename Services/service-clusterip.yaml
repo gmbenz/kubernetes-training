@@ -1,0 +1,14 @@
+# Deploy nginx and expose it internally via a ClusterIP Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-clusterip
+  labels:
+    app: nginx
+spec:
+  type: ClusterIP
+  selector:
+    app: nginx
+  ports:
+  - port: 80        # Service port (stable virtual IP)
+    targetPort: 80  # Container port inside the pod
