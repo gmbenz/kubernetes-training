@@ -18,6 +18,11 @@ done
 kubectl get pods --show-labels
 kubectl get pods -l tier=frontend
 
+# Delete one of the nginx pods to demonstrate self-healing
+$first_pod=$(kubectl get pods -l app=nginx -o jsonpath='{.items[0].metadata.name}')
+kubectl delete pod $first_pod
+kubectl get pods -o wide -l app=nginx
+
 # Delete the deployment
 kubectl delete deployment nginx
 kubectl get deployments
