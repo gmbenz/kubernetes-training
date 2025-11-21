@@ -1,4 +1,5 @@
-apiVersion: apps/v2
+# DaemonSet to run nginx on each node, generating the HTML file inline with a shell command.
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: nginx-inline-on-each-node

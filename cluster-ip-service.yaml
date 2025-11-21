@@ -1,3 +1,4 @@
+# Service of type ClusterIP to expose nginx-on-each-node pods within the cluster
 apiVersion: v1
 kind: Service
 metadata:

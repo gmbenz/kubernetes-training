@@ -1,3 +1,4 @@
+# ConfigMap containing the HTML template with environment variable
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -12,6 +13,7 @@ data:
     </body>
     </html>
 ---
+# ConfigMap containing the default nginx configuration
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -33,6 +35,7 @@ data:
         }
     }
 ---
+# DaemonSet to run nginx on each node, using the ConfigMaps. Uses envsubst to get the node name.
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:

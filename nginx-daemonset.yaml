@@ -1,3 +1,4 @@
+# ConfigMap containing the HTML file with the node name
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -12,6 +13,7 @@ data:
     </body>
     </html>
 ---
+# DaemonSet to run nginx on each node, mounting the ConfigMap. But $(NODE_NAME) is seen as static data.
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:

@@ -1,3 +1,4 @@
+# Service of type NodePort to expose nginx-inline-on-each-node pods on each node.
 apiVersion: v1
 kind: Service
 metadata:

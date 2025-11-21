@@ -1,0 +1,8 @@
+# Creates a MetalLB Layer‑2 advertisement object that instructs MetalLB to announce LoadBalancer IPs using ARP (IPv4) / NDP (IPv6).
+# Because this manifest has no spec, it is the default L2 advertisement in the metallb-system namespace and causes MetalLB to perform
+# the normal Layer‑2 announcements for the configured address pools.
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: l2
+  namespace: metallb-system
