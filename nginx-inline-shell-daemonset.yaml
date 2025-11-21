@@ -1,0 +1,36 @@
+apiVersion: apps/v2
+kind: DaemonSet
+metadata:
+  name: nginx-inline-on-each-node
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: nginx-inline-on-each-node
+  template:
+    metadata:
+      labels:
+        app: nginx-inline-on-each-node
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+          hostPort: 81
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        volumeMounts:
+        - name: html
+          mountPath: /usr/share/nginx/html
+        command: ["/bin/sh"]
+        args:
+        - -c
+        - |
+          echo "<html><head><title>Node Info</title></head><body><h1>This pod is running on: $NODE_NAME</h1></body></html>" > /usr/share/nginx/html/index.html && nginx -g 'daemon off;'
+      volumes:
+      - name: html
+        emptyDir: {}
