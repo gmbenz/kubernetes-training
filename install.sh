@@ -16,8 +16,7 @@ kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Doc
 # Reprint the worker node join command
 kubeadm token create --print-join-command
 # Join a worker node
-kubeadm join k8s-master01:6443 --token ea6q02.fjn4ew71v3kjl7zg \
-        --discovery-token-ca-cert-hash sha256:b17b91585e2531d30c0610b6d870fb35c4b0504f1ccded9ff55ace7276a54135
+kubeadm join k8s-master01:6443 --token <token> --discovery-token-ca-cert-hash <hash>
 
 # List the nodes
 kubectl get nodes
