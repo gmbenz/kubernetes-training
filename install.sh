@@ -1,6 +1,48 @@
 #!/bin/bash
 set -x
 
+# **** Prepare RHEL nodes
+# Disable swap
+sudo swapoff -a
+sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+# Enable kernel modules
+sudo modprobe br_netfilter
+sudo modprobe overlay
+sudo bash -c 'cat <<EOF >/etc/modules-load.d/containerd.conf
+br_netfilter
+overlay
+EOF'
+# Set system parameters
+sudo bash -c 'cat <<EOF >/etc/sysctl.d/10-kubernetes.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1
+EOF'
+sudo sysctl --system
+# Install containerd
+sudo apt-get update
+sudo apt-get install -y yum-utils device-mapper-persistent-data lvm2
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+sudo yum install -y containerd.io
+sudo systemctl start containerd
+sudo systemctl enable containerd
+sudo mkdir /etc/containerd
+sudo sh -c "containerd config default > /etc/containerd/config.toml"
+sudo sed -i 's/ SystemdCgroup = false/ SystemdCgroup = true/' /etc/containerd/config.toml
+sudo systemctl restart containerd
+# Install Kubernetes components
+sudo bash -c 'cat <<EOF >/etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF'
+sudo yum install -y kubelet kubeadm kubectl
+sudo systemctl enable --now kubelet
+
 # **** Install Kubernetes on RHEL
 # Initialize the master
 kubeadm init --pod-network-cidr=10.244.0.0/16
@@ -44,6 +86,10 @@ kubectl delete daemonset nginx-on-each-node
 # Get the log of the deployment
 kubectl describe pod nginx-on-each-node-fxhx9
 kubectl logs nginx-on-each-node-fxhx9
+
+# **** Debugging
+journalctl -u kubelet --no-pager -f
+journalctl -u containerd --no-pager -f
 
 # **** Start over
 # Reset the master
