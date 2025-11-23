@@ -2,4 +2,4 @@
 set -x
 
 kubectl apply -f pvc-mount.yaml
-kubectl get pods
+kubectl exec pod-nfs -- sh -c "df -h /data;ls -la /data"
