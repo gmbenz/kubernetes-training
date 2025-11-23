@@ -13,3 +13,4 @@ spec:
       port: 80
       targetPort: 80
       nodePort: 30081  # Optional: you can omit this to let Kubernetes assign one
+      

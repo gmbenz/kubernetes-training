@@ -12,3 +12,4 @@ spec:
   ports:
   - port: 80        # Service port (stable virtual IP)
     targetPort: 80  # Container port inside the pod
+    

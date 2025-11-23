@@ -148,3 +148,6 @@ sudo ip6tables -t mangle -X
 sudo ip6tables -P INPUT ACCEPT
 sudo ip6tables -P FORWARD ACCEPT
 sudo ip6tables -P OUTPUT ACCEPT
+
+# *** Dump all cluster data
+kubectl cluster-info dump >cluster-info_dump.txt

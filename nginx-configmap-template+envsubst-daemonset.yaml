@@ -85,3 +85,4 @@ spec:
       - name: nginx-conf
         configMap:
           name: nginx-default-conf
+          

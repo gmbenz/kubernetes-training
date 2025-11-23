@@ -34,4 +34,4 @@ spec:
           echo "<html><head><title>Node Info</title></head><body><h1>This pod is running on: $NODE_NAME</h1></body></html>" > /usr/share/nginx/html/index.html && nginx -g 'daemon off;'
       volumes:
       - name: html
-        emptyDir: {}
+
