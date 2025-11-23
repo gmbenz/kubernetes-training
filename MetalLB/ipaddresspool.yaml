@@ -1,9 +1,13 @@
 # Define the IP address pool for MetalLB
-apiVersion: metallb.io/v1beta1
-kind: IPAddressPool
+apiVersion: v1
+kind: ConfigMap
 metadata:
-  name: default-pool
   namespace: metallb-system
-spec:
-  addresses:
-  - 192.168.2.240-192.168.2.250
+  name: config
+data:
+  config: |
+    address-pools:
+    - name: default
+      protocol: layer2
+      addresses:
+      - 192.168.2.240-192.168.2.250
