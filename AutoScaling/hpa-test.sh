@@ -32,3 +32,5 @@ IPAddress=$(kubectl get svc nginx -o jsonpath='{.spec.clusterIP}')
 
 kubectl top nodes
 kubectl top pods
+
+while [ 1 ]; do kubectl get hpa;kubectl get pods -o wide -l app=nginx;echo; sleep 2; done

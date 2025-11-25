@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vpa-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vpa-test
+  template:
+    metadata:
+      labels:
+        app: vpa-test
+    spec:
+      containers:
+      - name: stress
+        image: progrium/stress
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        args:
+          - --cpu
+          - "2"
+          - --timeout
+          - "600s"
