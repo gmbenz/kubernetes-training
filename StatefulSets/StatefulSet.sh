@@ -11,6 +11,8 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: pv-redis-$i
+  labels:
+    app: redis
 spec:
   capacity:
     storage: 20Mi
@@ -28,3 +30,11 @@ helm install redis-pvs ./redis-pv-chart
 kubectl apply -f StatefulSetService.yaml
 kubectl apply -f StatefulSet.yaml
 kubectl get pods -o wide -l app=redis
+
+kubectl delete -f StatefulSet.yaml
+kubectl delete pvc -l app=redis
+for i in 0 1 2 3 4; do
+  kubectl delete pv pv-redis-$i
+done
+kubectl delete pv -l app=redis
+helm uninstall redis-pvs
