@@ -1,0 +1,17 @@
+{{- $count := .Values.pvCount -}}
+{{- range $i, $e := until $count }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-redis-{{ $i }}
+spec:
+  capacity:
+    storage: {{ $.Values.storageSize }}
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: {{ $.Values.storageClassName }}
+  hostPath:
+    path: {{ $.Values.basePath }}{{ $i }}
+    type: DirectoryOrCreate
+---
+{{- end }}

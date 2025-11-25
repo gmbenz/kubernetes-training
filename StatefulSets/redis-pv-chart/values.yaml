@@ -1,0 +1,4 @@
+pvCount: 5
+storageSize: 20Mi
+storageClassName: hostpath
+basePath: /data/data-redis-
