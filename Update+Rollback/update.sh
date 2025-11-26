@@ -9,3 +9,5 @@ kubectl get pods -l app=nginx
 kubectl set image deployment/nginx-deploy nginx=nginx:1.21
 kubectl rollout status deployment/nginx-deploy
 kubectl get pods -l app=nginx
+
+kubectl delete -f nginx-deploy.yaml
