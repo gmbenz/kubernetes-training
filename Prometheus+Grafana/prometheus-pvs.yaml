@@ -1,0 +1,29 @@
+# Create Persistent Volumes for Prometheus and PersistentVolume Controller
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: prometheus-pv
+spec:
+  capacity:
+    storage: 8Gi   # adjust to match Prometheus PVC request
+  accessModes:
+    - ReadWriteOnce
+  #storageClassName: hostpath
+  hostPath:
+    path: /data/prometheus   # directory on your node
+    type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: persistentvolume-controller-pv
+spec:
+  capacity:
+    storage: 2Gi   # adjust to match Prometheus PVC request
+  accessModes:
+    - ReadWriteOnce
+  #storageClassName: hostpath
+  hostPath:
+    path: /data/persistentvolume-controller   # directory on your node
+    type: DirectoryOrCreate
