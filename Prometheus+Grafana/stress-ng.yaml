@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: stress-ng
+spec:
+  containers:
+  - name: stress
+    image: polinux/stress
+    args: ["--cpu", "2", "--vm", "2", "--vm-bytes", "128M", "--timeout", "60s"]
