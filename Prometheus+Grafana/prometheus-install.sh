@@ -14,11 +14,12 @@ helm repo update
 helm install prometheus prometheus-community/prometheus
 # Verify installation
 kubectl get pods -l app.kubernetes.io/name=prometheus
-# Port forward to access Prometheus UI
-kubectl port-forward svc/prometheus-server 9090:80
-# Create a LoadBalancer service to access Prometheus
+# Port forward to access Prometheus UI. Access Prometheus at http://localhost:9090
+nohup kubectl port-forward svc/prometheus-server 9090:80 > portforward.log 2>&1 &
+# Create a LoadBalancer service to access Prometheus (requires MetalLB)
 kubectl apply -f prometheus-lb.yaml
-# Access Prometheus at http://localhost:9090
+LBIP=$(kubectl get svc prometheus-lb -o jsonpath="{.status.loadBalancer.ingress[0].ip}")
+echo "Prometheus is accessible at http://$LBIP:9090"
 
 # Get the pod name of the Prometheus server
 export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=prometheus,app.kubernetes.io/instance=prometheus" -o jsonpath="{.items[0].metadata.name}")
