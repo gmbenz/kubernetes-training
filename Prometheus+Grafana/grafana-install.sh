@@ -12,12 +12,33 @@ kubectl logs $POD_NAME -c grafana
 export POD_IP=$(kubectl get pod $POD_NAME -o wide -o jsonpath="{.status.podIP}")
 curl http://$POD_IP:3000/api/health
 
-export SECRET=$(kubectl get secret grafana -o jsonpath="{.data.admin-password}" | base64 --decode)
-
+# Create a LoadBalancer service to access Grafana (requires MetalLB)
 kubectl apply -f grafana-lb.yaml
 LBIP=$(kubectl get svc grafana-lb -o jsonpath="{.status.loadBalancer.ingress[0].ip}")
 echo "Grafana is accessible at http://$LBIP:3000"
 
+# Get the Grafana admin password. Login as admin user.
+export SECRET=$(kubectl get secret grafana -o jsonpath="{.data.admin-password}" | base64 --decode)
+echo "Grafana admin password: $SECRET"
+
+# Print the prometheus url for adding as a data source in Grafana
+kubectl get svc -A -l app.kubernetes.io/name=prometheus -o jsonpath='http://{.items[0].metadata.name}.{.items[0].metadata.namespace}.svc.cluster.local:80{"\n"}'
+
+# Configure Grafana Data Source
+# In Grafana UI → Configuration → Data Sources → Add Data Source.
+# Choose Prometheus.
+# Enter the prometheus URL from above into the URL field.
+# Save & Test.
+
+# Import Dashboards
+# In Grafana UI → Dashboards → New → Import
+# Enter the dashboard ID from Grafana.com (e.g., 1860 for Node exporter full, 6417 for Kubernetes cluster monitoring).
+# Click Load.
+# Select Prometheus as the data source.
+# Click Import.
+
+# Results from helm install grafana grafana/grafana
+# #################################################################################
 # [gmbenz@manatee Prometheus+Grafana]$ helm install grafana grafana/grafana
 # NAME: grafana
 # LAST DEPLOYED: Wed Nov 26 13:20:09 2025
