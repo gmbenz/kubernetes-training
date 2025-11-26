@@ -6,6 +6,8 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 helm repo update
 # Install Prometheus
 helm install prometheus prometheus-community/prometheus
+# Create a PV for Prometheus
+kubectl apply -f prometheus-pv.yaml
 # Verify installation
 kubectl get pods -l app.kubernetes.io/name=prometheus
 # Port forward to access Prometheus UI
