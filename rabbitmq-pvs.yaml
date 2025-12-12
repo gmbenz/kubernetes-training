@@ -7,7 +7,7 @@ spec:
     storage: 8Gi
   accessModes:
     - ReadWriteOnce
-  storageClassName: manual
+  storageClassName: ""
   hostPath:
     path: /data/rabbitmq/data-0
 ---
@@ -20,7 +20,7 @@ spec:
     storage: 8Gi
   accessModes:
     - ReadWriteOnce
-  storageClassName: manual
+  storageClassName: ""
   hostPath:
     path: /data/rabbitmq/data-1
 ---
@@ -33,6 +33,6 @@ spec:
     storage: 8Gi
   accessModes:
     - ReadWriteOnce
-  storageClassName: manual
+  storageClassName: ""
   hostPath:
     path: /data/rabbitmq/data-2
