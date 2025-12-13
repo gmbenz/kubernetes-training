@@ -7,3 +7,10 @@ spec:
   persistence:
     storageClassName: ""
     storage: 8Gi
+  override:
+    statefulSet:
+      spec:
+        template:
+          spec:
+            securityContext:
+              fsGroup: 999
