@@ -4,12 +4,13 @@ metadata:
   name: rabbitmq-pv-0
 spec:
   capacity:
-    storage: 8Gi
+    storage: 10Gi
   accessModes:
     - ReadWriteOnce
   storageClassName: ""
   hostPath:
     path: /data/rabbitmq/data-0
+    type: DirectoryOrCreate
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -23,6 +24,7 @@ spec:
   storageClassName: ""
   hostPath:
     path: /data/rabbitmq/data-1
+    type: DirectoryOrCreate
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -36,3 +38,4 @@ spec:
   storageClassName: ""
   hostPath:
     path: /data/rabbitmq/data-2
+    type: DirectoryOrCreate
