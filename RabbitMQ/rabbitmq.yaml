@@ -13,6 +13,20 @@ spec:
       spec:
         template:
           spec:
+            initContainers:
+            - name: fix-permissions
+              image: busybox
+              command:
+              - sh
+              - -c
+              - |
+                chown -R 999:999 /var/lib/rabbitmq
+                chmod -R 755 /var/lib/rabbitmq
+              volumeMounts:
+              - name: persistence
+                mountPath: /var/lib/rabbitmq
+              securityContext:
+                runAsUser: 0
             securityContext:
               fsGroup: 999
               runAsUser: 999
