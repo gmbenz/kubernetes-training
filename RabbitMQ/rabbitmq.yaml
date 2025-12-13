@@ -7,7 +7,7 @@ spec:
   persistence:
     storageClassName: ""
     storage: 8Gi
-
+  
   override:
     statefulSet:
       spec:
@@ -15,3 +15,6 @@ spec:
           spec:
             securityContext:
               fsGroup: 999
+              runAsUser: 999
+              runAsGroup: 999
+            containers: []
