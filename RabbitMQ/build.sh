@@ -1,12 +1,12 @@
 #!/bin/bash
 set -x
 
-GHCR_PAT=""
+export GHCR_PAT=""
 
 echo "$GHCR_PAT" | docker login ghcr.io -u gmbenz --password-stdin
 
-docker build -t yourrepo/producer .
-docker push yourrepo/producer
+docker build -f Dockerfile.producer -t ghcr.io/gmbenz/producer:latest .
+docker push ghcr.io/gmbenz/producer:latest
 
-docker build -t yourrepo/consumer .
-docker push yourrepo/consumer
+docker build -f Dockerfile.consumer -t ghcr.io/gmbenz/consumer:latest .
+docker push ghcr.io/gmbenz/consumer:latest
