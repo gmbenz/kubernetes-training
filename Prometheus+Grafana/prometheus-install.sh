@@ -22,7 +22,7 @@ LBIP=$(kubectl get svc prometheus-lb -o jsonpath="{.status.loadBalancer.ingress[
 echo "Prometheus is accessible at http://$LBIP:9090"
 
 # Get the pod name of the Prometheus server
-export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=prometheus,app.kubernetes.io/instance=prometheus" -o jsonpath="{.items[0].metadata.name}")
+export POD_NAME=$(kubectl get pods -l "app.kubernetes.io/name=prometheus,app.kubernetes.io/instance=prometheus" -o jsonpath="{.items[0].metadata.name}")
 # Describe the Prometheus server pod
 kubectl describe $POD_NAME
 # Get the logs from the Prometheus server running in the pod
